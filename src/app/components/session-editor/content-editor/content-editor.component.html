@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-2-auto">
+    <div class="container sessionIdBox text-center">
+      <span>Session ID: LX5N</span>
+    </div>
+  </div>
+</div>
+<div class="row align-items-center">
+  <div class="col-2">
+    <div>
+      <h4>Themen Liste <span class="badge badge-warning" matTooltip="Hier sehen sie die Aktuellen Themen, Sie können neue hinzufügen oder Löschen. Mit click auf die Themen Buttons können schon erstellte bearbeitet werden.">info</span></h4>
+    </div>
+  </div>
+  <div class="col-8">
+    <mat-form-field class="themen-chip-list">
+      <mat-chip-list #chipList >
+        <mat-chip *ngFor="let thema of themen" #chip="matChip" [selectable]="selectable"  (click)="themenChipClick(thema,false)">
+          {{thema.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div class="col-2 text-right">
+    <button type="button" class="btn btn-success" (click)="onAdd('thema')">Hinzufügen</button>
+  </div>
+</div>
+<div class="row align-items-center">
+  <div class="col-2">
+    <div>
+      <h4>Teilaufgaben Liste <span class="badge badge-warning" matTooltip="Hier sehen sie die Aktuellen Teilaufgaben, Sie können neue hinzufügen oder Löschen. Mit click auf die Teilaufgaben Buttons können schon erstellte bearbeitet werden.">info</span></h4>
+    </div>
+  </div>
+  <div class="col-8">
+    <mat-form-field class="themen-chip-list">
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip *ngFor="let teil of teilAufgaben" #chip="matChip" [selectable]="selectable"  (click)="themenChipClick(teil,true)">
+          {{teil.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div class="col-2 text-right">
+    <button type="button" class="btn btn-success" (click)="onAdd('teil')">Hinzufügen</button>
+  </div>
+</div>
+<div class="row align-items-center">
+  <div class="col-2">
+    <div>
+      <h4>Algemeine Didaktische Hinweise <span class="badge badge-warning" matTooltip="Hier sehen sie die Aktuellen Hinweise, Sie können neue hinzufügen oder Löschen. Mit click auf die Hinweis Buttons können schon erstellte bearbeitet werden. Hinweise werden allen Schülern angezeigt.">info</span></h4>
+    </div>
+  </div>
+  <div class="col-8">
+    <mat-form-field class="themen-chip-list">
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip *ngFor="let hinweis of hinweise" #chip="matChip" [selectable]="selectable"  (click)="themenChipClick(hinweis,false)" >
+          {{hinweis.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div class="col-2 text-right">
+    <button type="button" class="btn btn-success" (click)="onAdd('hinweis')">Hinzufügen</button>
+  </div>
+</div>
+<div *ngIf="editorDiv">
+  <app-content-text (closeEvent)="editorDiv = false"></app-content-text>
+</div>
+<div class="row text-center stepRow">
+  <div class="col">
+    <button type="button" class="btn btn-outline-primary stepBtn" routerLink="/admin-aufgaben-editor" routerLinkActive="active">Nächster Schritt</button>
+</div>
+</div>
+
+

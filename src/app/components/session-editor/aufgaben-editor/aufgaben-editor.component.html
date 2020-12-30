@@ -1,0 +1,41 @@
+<div class="row text-center mt-5">
+  <div class="col">
+    <div>
+      <h1>Aufgaben beschreibung</h1>
+    </div>
+  </div>
+</div>
+<div class="row align-items-center mt-5">
+  <div class="col-3">
+    <div>
+      <h3>Beschreibung Aufgabe 1
+        <span class="badge badge-warning"
+        matTooltip="Hier können sie die Beschreibung der ersten Aufgabe angeben. Diese Beschreibung wird den Schülern
+        in der Brainstorming/Discussions Phase angezeigt">info
+        </span></h3>
+     </div>
+  </div>
+  <div class="col-9">
+    <quill-editor id="editor1" [style.display]="'block'"></quill-editor>
+   </div>
+</div>
+<div class="row align-items-center mt-5">
+  <div class="col-3">
+    <div>
+      <h3>Beschreibung Aufgabe 2
+        <span class="badge badge-warning"
+              matTooltip="Hier können sie die Beschreibung der zweiten Aufgabe angeben. Diese Beschreibung wird den Schülern
+              in der Präsentations/Ergebnis Phase angezeigt">info
+        </span></h3>
+     </div>
+  </div>
+  <div class="col-9">
+    <quill-editor id="editor2" [style.display]="'block'"></quill-editor>
+   </div>
+</div>
+<div class="row mt-5">
+  <div class="col text-center">
+    <button type="button" class="btn btn-outline-secondary navBtn" routerLink="/admin-content-editor" routerLinkActive="active">Zurück</button>
+    <button type="button" class="btn btn-outline-primary navBtn ml-3" routerLink="/admin-gruppen-editor" routerLinkActive="active" >Nächster Schritt</button>
+  </div>
+</div>

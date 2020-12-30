@@ -1,0 +1,76 @@
+<div class="row text-center mt-5">
+  <div class="col">
+    <div>
+      <h1>Gruppen Editor</h1>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-auto">
+    <button type="button" class="btn btn-success">Gruppe Hinzufügen</button>
+  </div>
+  <div class="col">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Gruppen Größe</span>
+      </div>
+      <input type="text" class="form-control sizing">
+      <div class="input-group-append">
+        <span class="input-group-text toolTip" matTooltip="Bitte geben Sie hier die Gewünsche Gruppen größe ein z.B 5.">Info</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col">
+    <app-gruppen-table-element></app-gruppen-table-element>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-auto">
+    <h3>Gruppeneinteilungs Format
+      <span class="badge badge-warning"
+      matTooltip="Zufällig: Alle Schüler werden zufällig eingeteilt, Schüler Einteilung: Schüler teilen sich selber ein, Lehrer Einteilung: Lehrer teilt Schüler ein, Tipp: Sie haben immer die Möglichkeit Schüler zuzuweisen" >info
+      </span></h3>
+  </div>
+  <div class="col">
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        Zufällig
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+      <label class="form-check-label" for="exampleRadios2">
+        Schüler Einteilung
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+      <label class="form-check-label" for="exampleRadios3">
+        Lehrer Einteilung
+      </label>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Bearbeitungs Zeit in Minuten</span>
+      </div>
+      <input type="text" class="form-control sizing">
+      <div class="input-group-append">
+        <span class="input-group-text toolTip" matTooltip="Bitte geben Sie hier die Gewünsche Bearbeitungszeit in Minuten an. Z.b 20.">Info</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col text-center">
+    <button type="button" class="btn btn-outline-secondary navBtn" routerLink="/admin-aufgaben-editor" routerLinkActive="active">Zurück</button>
+    <button type="button" class="btn btn-outline-primary ml-3 navBtn">Session Erstellen</button>
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+<div class="row align-items-center  tableElement mt-1">
+  <div class="col-auto mt-3">
+    <h3>Gruppe {{gruppenCounter}}</h3>
+  </div>
+  <div class="col-auto mt-3">
+    <h3>Themen Auswahl</h3>
+  </div>
+  <div class="col-auto mt-3">
+    <div class="form-group">
+      <select class="form-control" id="Select{{gruppenCounter}}">
+       <option *ngFor="let items of themenListe">{{ items.name }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col text-right">
+    <button type="button" class="btn btn-danger">Löschen</button>
+  </div>
+</div>
+
+
+
+
+
