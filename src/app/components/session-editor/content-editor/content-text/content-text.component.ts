@@ -34,6 +34,8 @@ export class ContentTextComponent implements OnInit {
   constructor(private StateService: StateService) {
 
   }
+  //Function if hinzufüge btn is clicked
+  //checks the type des chips der hinzugefügt werden muss if not leer dann wird der string gechecked
   onSaveNew(){
     if(this.typeOfAdd != ''){
       if(this.typeOfAdd === 'des Hinweises'){
@@ -52,7 +54,7 @@ export class ContentTextComponent implements OnInit {
       }
 
     }else{
-      //edit chip
+      //edit chip checked den typ des chips und dann wird der chip in der DB verändert
       if(this.clickedChip.typ ==='thema'){
         this.clickedChip.name = this.titelText;
         this.clickedChip.text = this.editorText;
@@ -72,6 +74,7 @@ export class ContentTextComponent implements OnInit {
     }
   }
   onDelete(){
+    //löscht den geclickten chip aus der DB
     if(this.clickedChip){
       if(this.clickedChip.typ =='thema'){
         this.StateService.deleteThema(this.clickedChip._id);

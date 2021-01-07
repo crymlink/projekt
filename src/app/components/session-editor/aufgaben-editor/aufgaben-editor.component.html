@@ -16,7 +16,7 @@
      </div>
   </div>
   <div class="col-9">
-    <quill-editor id="editor1" [style.display]="'block'"></quill-editor>
+    <quill-editor id="editor1" [style.display]="'block'" (onEditorChanged)="changedEditor1($event)" [(ngModel)]="aufgabe1EditorText"></quill-editor>
    </div>
 </div>
 <div class="row align-items-center mt-5">
@@ -30,7 +30,7 @@
      </div>
   </div>
   <div class="col-9">
-    <quill-editor id="editor2" [style.display]="'block'"></quill-editor>
+    <quill-editor id="editor2" [style.display]="'block'" (onEditorChanged)="changedEditor2($event)" [(ngModel)]="aufgabe2EditorText"></quill-editor>
    </div>
 </div>
 <div class="row mt-5">

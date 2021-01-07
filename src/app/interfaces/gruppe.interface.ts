@@ -1,9 +1,12 @@
 import { Aufgaben } from "./aufgaben.interface";
 import { Schueler } from "./schueler.interface";
+import { Themen } from "./themen.interface";
 
 export interface Gruppe {
   _id?: string;
-  schuelerList: Schueler[];
-  name: string; //name of thema
-  aufgabenList: Aufgaben[];
+  temporalCreateId?: number;
+  schuelerList?: Schueler[];
+  name?: Themen; //name of thema
+  aufgabenList?: Aufgaben[];
+  groeße?: number;
 }

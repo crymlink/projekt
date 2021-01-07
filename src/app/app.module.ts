@@ -21,6 +21,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { GruppenEditorComponent } from './components/session-editor/gruppen-editor/gruppen-editor.component';
 import {MatInputModule} from '@angular/material/input';
 import { GruppenTableElementComponent } from './components/session-editor/gruppen-editor/gruppen-table-element/gruppen-table-element.component';
+import { GruppenAuswahlComponent } from './components/gruppen-auswahl/gruppen-auswahl.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { GruppenElementComponent } from './components/gruppen-auswahl/gruppen-element/gruppen-element.component';
 
 
 
@@ -32,7 +35,9 @@ import { GruppenTableElementComponent } from './components/session-editor/gruppe
     ContentTextComponent,
     AufgabenEditorComponent,
     GruppenEditorComponent,
-    GruppenTableElementComponent
+    GruppenTableElementComponent,
+    GruppenAuswahlComponent,
+    GruppenElementComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,7 @@ import { GruppenTableElementComponent } from './components/session-editor/gruppe
     ReactiveFormsModule,
     MatTooltipModule,
     MatInputModule,
+    DragDropModule,
     QuillModule.forRoot({
       modules: {
         formula: true,

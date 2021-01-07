@@ -37,13 +37,13 @@ export class StateService implements OnInit, OnDestroy {
   schueler6: Schueler = {name: 'Elena', _id: 'dewkljf484845', gruppenId: '11'};
   schueler7: Schueler = {name: 'Geraldy', _id: 'dewkljf484846'};
 
-  gruppe10: Gruppe = {aufgabenList: [this.aufgabe1], name: 'London', schuelerList: [this.schueler1, this.schueler2, this.schueler5], _id: '10'}
-  gruppe11: Gruppe = {aufgabenList: [this.aufgabe2], name: 'Paris', schuelerList: [this.schueler3, this.schueler4, this.schueler6], _id: '11'}
 
   thema1: Themen = {_id: 'djf48932', name: 'London', text: 'Coole Hinweise und so Big Ben du weißt', typ: 'thema'}
   thema2: Themen = {_id: 'djf489321', name: 'Paris', text: 'Coole Hinweise und so Eifelturm du weißt', typ: 'thema'}
   thema3: Themen = {_id: 'djf48924321', name: 'Praag', text: 'Billig und so', typ: 'thema'}
 
+  gruppe10: Gruppe = {temporalCreateId: 1,aufgabenList: [this.aufgabe1], name: this.thema1, schuelerList: [this.schueler1, this.schueler2, this.schueler5], _id: '10'}
+  gruppe11: Gruppe = {temporalCreateId: 2,aufgabenList: [this.aufgabe2], name: this.thema2, schuelerList: [this.schueler3, this.schueler4, this.schueler6], _id: '11'}
 
   hinweis1: Hinweise = {_id: 'djf4893233', name: 'hilfe', text: 'Coole Hinweise und so Big Ben du weißt ist ne uhr', typ: 'hinweis'}
   hinweis2: Hinweise = {_id: 'djf489323333', name: 'hilfe2', text: 'Coole Hinweise und so Eifelturm du weißt ist Hoch', typ: 'hinweis'}
@@ -141,6 +141,41 @@ export class StateService implements OnInit, OnDestroy {
     this.getDaten();
   }
 
+  saveManyGruppen(gruppe: Gruppe[]){
+    const someId: string ="djsfiojfioj"
+    const someNewArray: Gruppe[] = []
+    let someObject: any;
+    for(const grupp of gruppe){
+      if(!grupp._id){
+        grupp._id = someId;
+        someNewArray.push(grupp);
+        console.log("wieOft")
+      }else{
+        this.editGruppe(grupp);
+      }
+    }
+
+    this.fakeData.gruppenList = [...this.fakeData.gruppenList, ...someNewArray];
+    this.getDaten();
+  }
+
+  editGruppe(editGruppe: Gruppe){
+    //Reference Problem MERKEN BEI ANDEREN EDITS
+    this.fakeData.gruppenList = this.fakeData.gruppenList.map((gruppe) => {
+      if(gruppe._id === editGruppe._id){
+        console.log(editGruppe);
+        return editGruppe;
+      }else {
+        return gruppe;
+      }
+    })
+    this.getDaten();
+  }
+
+  deleteGruppeById(_id: string){
+    this.fakeData.gruppenList = this.fakeData.gruppenList.filter((gruppe) => gruppe._id !== _id);
+    this.getDaten();
+  }
 
 
 
@@ -165,8 +200,7 @@ export class StateService implements OnInit, OnDestroy {
   }
 
 
-
-  setNewHinweis(newHinweis: Hinweise){
+   setNewHinweis(newHinweis: Hinweise){
     newHinweis._id = "fjsdoifjiowe5";
     this.fakeData.hinweisList.push(newHinweis);
     this.getDaten();
@@ -190,6 +224,21 @@ export class StateService implements OnInit, OnDestroy {
   }
 
 
+  //create and delete Aufgaben Stellung
+  editAufgabe1(newAufgabe: Aufgaben){
+    //ID wird DB setzten
+    newAufgabe._id = "fjsdowe333";
+    this.fakeData.aufgabenList[0].fragestellung = newAufgabe.fragestellung;
+    this.getDaten();
+    console.log();
+  }
+
+  editAufgabe2(newAufgabe: Aufgaben){
+    //ID wird DB setzten
+    newAufgabe._id = "fjsdow44e333";
+    this.fakeData.aufgabenList[1].fragestellung = newAufgabe.fragestellung;
+    this.getDaten();
+  }
 
   ngOnDestroy() {
     this.someIntervall.clearInterval();
