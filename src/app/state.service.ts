@@ -1,3 +1,4 @@
+import { CdkDragDrop,moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Aufgaben } from './interfaces/aufgaben.interface';
@@ -36,6 +37,7 @@ export class StateService implements OnInit, OnDestroy {
   schueler5: Schueler = {name: 'Daniel', _id: 'dewkljf484844', gruppenId: '10'};
   schueler6: Schueler = {name: 'Elena', _id: 'dewkljf484845', gruppenId: '11'};
   schueler7: Schueler = {name: 'Geraldy', _id: 'dewkljf484846'};
+
 
 
   thema1: Themen = {_id: 'djf48932', name: 'London', text: 'Coole Hinweise und so Big Ben du weißt', typ: 'thema'}
@@ -238,6 +240,19 @@ export class StateService implements OnInit, OnDestroy {
     newAufgabe._id = "fjsdow44e333";
     this.fakeData.aufgabenList[1].fragestellung = newAufgabe.fragestellung;
     this.getDaten();
+  }
+  //Drag and Drop Event for two Components
+  drop(event: CdkDragDrop<string[]>) {
+    console.log(event.container);
+
+    if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+        transferArrayItem(event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex);
+    }
   }
 
   ngOnDestroy() {

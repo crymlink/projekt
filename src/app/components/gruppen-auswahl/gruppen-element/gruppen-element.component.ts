@@ -10,17 +10,27 @@ import { StateService } from '../../../state.service';
   styleUrls: ['./gruppen-element.component.scss']
 })
 export class GruppenElementComponent implements OnInit {
-  vegetables: Gruppe[];
+  gruppenListe: Gruppe[];
+  titelThema: string;
+  gruppenID: number;
+  fillChip: Schueler = {name: 'Gruppe Leer', _id: 'dewkljf484844'};
+  newSchuelerList: Schueler[] = [];
 
-  drop(event: CdkDragDrop<Schueler[]>) {
-    moveItemInArray(this.vegetables, event.previousIndex, event.currentIndex);
-  }
+
 
   constructor(private StateService: StateService) { }
 
+  drop(event: CdkDragDrop<string[]>) {
+    this.StateService.drop(event);
+    console.log("Sind im Drop event");
+  }
+
   ngOnInit() {
-    this.vegetables = this.StateService.getDaten().gruppenList;
-    console.log(this.vegetables);
+    this.gruppenListe = this.StateService.getDaten().gruppenList;
+    console.log(this.gruppenListe);
+    this.titelThema = this.gruppenListe[0].name.name;
+    this.gruppenID = this.gruppenListe[0].temporalCreateId;
+
 
   }
 

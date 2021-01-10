@@ -12,24 +12,25 @@ export interface Vegetable {
   styleUrls: ['./gruppen-auswahl.component.scss']
 })
 export class GruppenAuswahlComponent implements OnInit {
-  vegetables: Schueler[];
+  schuelerCompleteList: Schueler[];
   GruppenListIds: string[];
   GruppenNumber: number = 0;
 
-
-  drop(event: CdkDragDrop<Schueler[]>) {
-    moveItemInArray(this.vegetables, event.previousIndex, event.currentIndex);
-  }
   constructor(private StateService: StateService) { }
 
+  drop(event: CdkDragDrop<string[]>) {
+    this.StateService.drop(event);
+    console.log("Sind im Drop event");
+
+  }
+
   ngOnInit() {
-    this.vegetables = this.StateService.getDaten().schuelerList;
+    this.schuelerCompleteList = this.StateService.getDaten().schuelerList;
     //this.GruppenListIds.push('listOne');
     //Mit Subscription
     for(let entry of this.StateService.getDaten().gruppenList){
       this.GruppenNumber +=1;
     }
-    console.log(this.GruppenNumber);
 
   }
 
