@@ -1,37 +1,43 @@
 <div class="row mt-5">
   <div class="col-4">
-    <h3>Titel {{typeOfAdd}}</h3>
-    <input type="email" class="form-control" id="titelInput" aria-describedby="titelHelp" placeholder="Bitte geben sie einen Titel ein" [(ngModel)]="titelText">
-    <small id="titelHelp" class="form-text text-muted">Der Angegebene Titel wird oben in der Liste und den Schülern angezeigt</small>
-    <h3> Output </h3>
-    <p [innerHTML]= "editorText"></p>
+    <h3>Titel {{ typeOfAdd }}</h3>
+    <input
+      type="email"
+      class="form-control"
+      id="titelInput"
+      aria-describedby="titelHelp"
+      placeholder="Bitte geben sie einen Titel ein"
+      [(ngModel)]="titelText"
+    />
+    <small id="titelHelp" class="form-text text-muted"
+      >Der Angegebene Titel wird oben in der Liste und den Schülern
+      angezeigt</small
+    >
   </div>
- </div>
-  <div class="row mt-4">
-    <div class="col-8">
-      <label for="hinweis">Anmerkungen</label>
-      <quill-editor [style.display]="'block'" (onEditorChanged)="changedEditor($event)" [ngModel]="textFormat"></quill-editor>
-      <!--<quill-editor format="text" [(ngModel)]="textFormat"></quill-editor>-->
-      <small id="textHelp" class="form-text text-muted">Hier können sie Anmerkungen und Tips für die Schüler eingeben </small>
+</div>
+<div class="row mt-4">
+  <div class="col-12">
+    <label for="hinweis">Anmerkungen</label>
+    <quill-editor
+      [style.display]="'block'"
+      (onEditorChanged)="changedEditor($event)"
+      [ngModel]="textFormat"
+    ></quill-editor>
+    <!--<quill-editor format="text" [(ngModel)]="textFormat"></quill-editor>-->
+    <small id="textHelp" class="form-text text-muted"
+      >Hier können sie Anmerkungen und Tips für die Schüler eingeben
+    </small>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="text-right">
+      <button type="button" class="btn btn-danger" (click)="onDelete()">
+        Löschen
+      </button>
+      <button type="button" class="btn btn-success ml-2" (click)="onSaveNew()">
+        Speichern
+      </button>
     </div>
-    <div class="col-4">
-      <div *ngIf="isTeilAufgabe">
-        <label for="hinweis">Antwortbox</label>
-        <textarea  rows="4" class="form-control" id="hinweis" aria-describedby="textHelp" [(ngModel)]="antwortText"></textarea>
-        <small id="textHelp" class="form-text text-muted">Hier können die Antwortboxen mit möglichen Hinweisen oder ähnlichen vorbereitet werden.  </small>
-      </div>
   </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class=" text-right">
-        <button type="button" class="btn btn-danger" (click)="onDelete()">Löschen</button>
-        <button type="button" class="btn btn-success ml-2" (click)="onSaveNew()">Speichern</button>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
+</div>

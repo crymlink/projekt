@@ -1,4 +1,5 @@
 import { Aufgaben } from "./aufgaben.interface";
+import { Ergebnis } from "./ergebnis.interface";
 import { Gruppe } from "./gruppe.interface";
 import { Hinweise } from "./hinweise.interface";
 import { Schueler } from "./schueler.interface";
@@ -12,6 +13,7 @@ export interface Datenbank {
   gruppenList?: Gruppe[];
   aufgabenList?: Aufgaben[];
   teilAufgabenList?: Teilaufgaben[];
+  ergebnisList?: Ergebnis[];
   hinweisList?: Hinweise[];
   themenList?: Themen[];
   adminPW?: string;

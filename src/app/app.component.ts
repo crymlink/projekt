@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    const testdb: Datenbank = this.stateService.getDaten();
     this.someIntervall = setInterval(() => this.stateService.getDaten() , 10000);
     this.someSUbject = this.stateService.getSubscription();
     this.someSubscription = this.someSUbject.subscribe((dbObject: Datenbank) => {

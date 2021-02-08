@@ -63,7 +63,6 @@ export class ContentTextComponent implements OnInit {
       if(this.clickedChip.typ ==='teilaufgabe'){
         this.clickedChip.name = this.titelText;
         this.clickedChip.text = this.editorText;
-        this.clickedChip.ergebnis.text = this.antwortText;
         this.StateService.editTeilAufgabe(this.clickedChip);
       }
       if(this.clickedChip.typ ==='hinweis'){
@@ -109,7 +108,6 @@ export class ContentTextComponent implements OnInit {
     //handels the rendering of enditor if hinzufügen btn ist clicked
     this.typeOfAdd = this.StateService.getAddChipString();
     this.isTeilAufgabe = this.StateService.getIsTeilaufgabe();
-    console.log(this.isTeilAufgabe);
     this.StateService.addChipSubject.subscribe(fetchType => {
       this.clickedChip = null;
       this.titelText = "";
@@ -132,9 +130,6 @@ export class ContentTextComponent implements OnInit {
       this.typeOfAdd = '';
       this.textFormat = this.clickedChip.text;
       this.titelText  = this.clickedChip.name;
-      if(this.clickedChip.typ === 'teilaufgabe'){
-        this.antwortText = this.clickedChip.ergebnis.text;
-      }
     }
   }
 

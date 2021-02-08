@@ -1,5 +1,7 @@
 <div class="card mt-2">
-  <h4 class="card-header .matMargin">Gruppe {{gruppenID}}:   {{titelThema}}</h4>
+  <h4 class="card-header .matMargin">
+    Gruppe {{ gruppenID }}: {{ titelThema }}
+  </h4>
   <div class="card-body change">
     <div class="row">
       <div class="col">
@@ -16,23 +18,24 @@
             cdkDropListConnectedTo="listOne"
             cdkDropListOrientation="horizontal"
             [cdkDropListData]="newSchuelerList"
-            (cdkDropListDropped)="drop($event)">
-            <mat-chip *ngIf="newSchuelerList.length <= 0">Gruppe ist Leer</mat-chip>
+            (cdkDropListDropped)="drop($event)"
+            (cdkDrop)="drag($event)"
+          >
+            <mat-chip *ngIf="newSchuelerList.length <= 0"
+              >Gruppe ist Leer</mat-chip
+            >
             <mat-chip
               class="example-box"
               cdkDrag
-              *ngFor="let schueler of newSchuelerList">
-              {{schueler.name}}
+              *ngFor="let schueler of newSchuelerList"
+              (click)="chipClicked(schueler)"
+            >
+              {{ schueler.name }}
             </mat-chip>
           </mat-chip-list>
-          <hr>
+          <hr />
         </div>
+      </div>
     </div>
   </div>
 </div>
-</div>
-
-
-
-
-

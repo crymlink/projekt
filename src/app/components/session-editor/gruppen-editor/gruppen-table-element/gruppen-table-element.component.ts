@@ -17,8 +17,8 @@ export class GruppenTableElementComponent implements OnInit {
   constructor(private StateService: StateService) {
   }
 
-  ngOnInit() {
-    this.themenListe = this.StateService.getDaten().themenList;
+  async ngOnInit() {
+    this.themenListe = (await this.StateService.getDaten()).themenList;
   }
 
   changeThema(event: any) {

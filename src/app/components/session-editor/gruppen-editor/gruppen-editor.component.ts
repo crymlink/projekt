@@ -19,10 +19,10 @@ export class GruppenEditorComponent implements OnInit,OnDestroy {
     this.getGruppen();
   }
 
-  getGruppen() {
+  async getGruppen() {
     this.counter = 0;
     const newArray: Gruppe[] = [];
-    this.gruppe = [...this.StateService.getDaten().gruppenList];
+    this.gruppe = [...(await this.StateService.getDaten()).gruppenList];
     this.gruppe.forEach( (grupp)=> {
       grupp = {...grupp};
       grupp.name= {...grupp.name};
@@ -35,7 +35,7 @@ export class GruppenEditorComponent implements OnInit,OnDestroy {
 
   addGruppe() {
     this.counter = this.counter +1;
-    let someGroup: Gruppe = {temporalCreateId: this.counter, groeße: this.groesse};
+    let someGroup: Gruppe = {temporalCreateId: this.counter,aufgabenList: [],schuelerList: [], groeße: this.groesse};
     this.gruppe.push(someGroup);
   }
 

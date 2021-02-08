@@ -1,6 +1,6 @@
 export interface Aufgaben {
   _id?: string;
-  fragestellung: string;
+  fragestellung?: string;
 
 
 }

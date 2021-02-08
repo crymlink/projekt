@@ -17,7 +17,6 @@ export class ContentEditorComponent implements OnInit {
   themen: any;
   teilAufgaben: any;
   hinweise: any;
-  //Noch Buggy weil beim ersten Click Läd der Inhalt nicht.
   editorDiv = false;
 
   //onAdd shows editorDiv then nexts one of three strings to addSubject
@@ -50,11 +49,18 @@ export class ContentEditorComponent implements OnInit {
 
 
 
-  ngOnInit() {
-
-    this.themen = this.StateService.getDaten().themenList;
-    this.teilAufgaben = this.StateService.getDaten().teilAufgabenList;
-    this.hinweise = this.StateService.getDaten().hinweisList;
+  async ngOnInit() {
+    this.StateService.getDaten().then(() => {
+      if (this.StateService.data.themenList) {
+        this.themen = [...this.StateService.data.themenList];
+      }
+      if (this.StateService.data.teilAufgabenList) {
+        this.teilAufgaben = [...this.StateService.data.teilAufgabenList];
+      }
+      if (this.StateService.data.hinweisList) {
+        this.hinweise = [...this.StateService.data.hinweisList];
+      }
+    });
     this.StateService.dbSubject.subscribe( dbData =>{
       this.themen = dbData.themenList;
       this.teilAufgaben = dbData.teilAufgabenList;

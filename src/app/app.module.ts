@@ -24,6 +24,8 @@ import { GruppenTableElementComponent } from './components/session-editor/gruppe
 import { GruppenAuswahlComponent } from './components/gruppen-auswahl/gruppen-auswahl.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GruppenElementComponent } from './components/gruppen-auswahl/gruppen-element/gruppen-element.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HinweisDashboardComponent } from './components/hinweis-dashboard/hinweis-dashboard.component'
 
 
 
@@ -37,9 +39,11 @@ import { GruppenElementComponent } from './components/gruppen-auswahl/gruppen-el
     GruppenEditorComponent,
     GruppenTableElementComponent,
     GruppenAuswahlComponent,
-    GruppenElementComponent
+    GruppenElementComponent,
+    HinweisDashboardComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -55,35 +59,32 @@ import { GruppenElementComponent } from './components/gruppen-auswahl/gruppen-el
     QuillModule.forRoot({
       modules: {
         formula: true,
-        toolbar:[
-          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
           ['blockquote', 'code-block'],
 
-          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-          [{ 'direction': 'rtl' }],                         // text direction
+          [{ header: 1 }, { header: 2 }], // custom button values
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+          [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+          [{ direction: 'rtl' }], // text direction
 
-          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-          [{ 'font': [] }],
-          [{ 'align': [] }],
+          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          [{ font: [] }],
+          [{ align: [] }],
 
-          ['clean'],                                         // remove formatting button
+          ['clean'], // remove formatting button
 
-          ['formula','link', 'image', 'video']               // link and image, video
-        ]
-      }
+          ['formula', 'link', 'image', 'video'], // link and image, video
+        ],
+      },
     }),
-    KatexModule
-
-
-
+    KatexModule,
   ],
   providers: [StateService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
