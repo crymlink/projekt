@@ -3,6 +3,5 @@ export interface Teilaufgaben {
   _id?: string;
   name: string;
   text?: string;
-  ergebnis?: Ergebnis;
   typ?: string;
 }

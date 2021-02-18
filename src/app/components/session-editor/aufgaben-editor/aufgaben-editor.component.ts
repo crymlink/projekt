@@ -38,9 +38,7 @@ export class AufgabenEditorComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //VL muss das speichern woanders hingelegt werden
     const newAufgabe1: Aufgaben = { fragestellung: this.aufgabe1EditorText };
-    this.StateService.editAufgabe1(newAufgabe1);
-    console.log(this.aufgabe2EditorText);
     const newAufgabe2: Aufgaben = { fragestellung: this.aufgabe2EditorText };
-    this.StateService.editAufgabe2(newAufgabe2);
+    this.StateService.editAufgabe1(newAufgabe1, newAufgabe2);
   }
 }

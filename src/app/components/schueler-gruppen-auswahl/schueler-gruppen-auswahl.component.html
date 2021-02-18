@@ -1,0 +1,42 @@
+<div class="row mt-5">
+  <div class="col text-center">
+    <h1>Gruppen zuteilung</h1>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col">
+    <!-- Hier NGFOR-->
+    <div *ngFor="let gruppe of gruppen; let i = index" class="col-12">
+      <app-schueler-gruppen-element
+        [gruppe]="gruppe"
+        [myTemporalGroupId]="myTemporalGroupId"
+      ></app-schueler-gruppen-element>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card mt-2">
+      <h4 class="card-header">Nutzerliste</h4>
+      <div class="card-body">
+        <mat-chip-list class="example-chip">
+          <mat-chip *ngIf="schuelerCompleteList.length <= 0"
+            >Schüler Liste ist Leer</mat-chip
+          >
+          <mat-chip
+            class="example-box"
+            *ngFor="let schueler of schuelerCompleteList"
+          >
+            {{ schueler.name }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+</div>
+<button
+  type="button"
+  class="btn btn-outline-success"
+  routerLinkActive="active"
+  routerLink="/app-brainstorming-dashboard"
+>
+  Test Next phase
+</button>

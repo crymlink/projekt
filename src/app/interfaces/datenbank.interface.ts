@@ -13,7 +13,6 @@ export interface Datenbank {
   gruppenList?: Gruppe[];
   aufgabenList?: Aufgaben[];
   teilAufgabenList?: Teilaufgaben[];
-  ergebnisList?: Ergebnis[];
   hinweisList?: Hinweise[];
   themenList?: Themen[];
   adminPW?: string;

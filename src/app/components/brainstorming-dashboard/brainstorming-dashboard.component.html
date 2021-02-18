@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="row">
+    <div class="col-2 hinweise text-center mt-4">
+      <div>
+        <div>
+          LONDON
+        </div>
+        <button class="btn btn-lg btn-outline-info btn-sm" (click)="open(mymodal)">Info</button>
+            <ng-template #mymodal let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                  Bootstrap Modal
+                </h4>
+                <button
+                  type="button"
+                  class="close"
+                  aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body" [innerHTML]=""></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+              </div>
+            </ng-template>
+      </div>
+    </div>
+    <div class="col mt-4" *ngFor="let teilaufgabe of teilaufgabenList">
+          <div class="aufgaben text-center">
+            <div>
+              {{ teilaufgabe.name }}
+            </div>
+            <button
+              class="btn btn-lg btn-outline-info btn-sm"
+              (click)="open(mymodal)"
+            >
+              Info
+            </button>
+            <ng-template #mymodal let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                   {{ teilaufgabe.name }}
+                </h4>
+                <button
+                  type="button"
+                  class="close"
+                  aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body" [innerHTML]="teilaufgabe.text"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-2">
+      <div
+        class="row hinweise text-center mt-3"
+        *ngFor="let hinweis of hinweisList"
+      >
+        <div class="inHinweis">
+          <div>
+            {{ hinweis.name }}
+          </div>
+          <button
+            class="btn btn-lg btn-outline-info btn-sm"
+            (click)="open(mymodal)"
+          >
+            Info
+          </button>
+          <ng-template #mymodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">
+                {{hinweis.name}}
+              </h4>
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body" [innerHTML]="hinweis.text"></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                (click)="modal.close('Save click')"
+              >
+                Ok
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-10">
+      <div class="row etherpad ml-1 mt-3">
+        <div class="col">
+          ETHERPAD
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div *ngIf="true">
+          <div class="row mt-4">
+            <div class="col-12">
+              <label for="hinweis">Ergebnis:</label>
+              <!--<quill-view [content]="textFormat"></quill-view>-->
+              <quill-editor
+                [style.display]="'block'"
+                (onEditorChanged)="changedEditor($event)"
+                [ngModel]="textFormat"
+              ></quill-editor>
+              <small id="textHelp" class="form-text text-muted"
+                >Hier können sie Anmerkungen und Tips für die Schüler eingeben
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="text-right">
+                <button type="button" class="btn btn-info" (click)="onBearbeiten()">
+                  Bearbeiten
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-success ml-2"
+                  (click)="onSave()"
+                >
+                  Speichern
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="true">
+          <div class="col-3"><p><b>Ergebnisse Eintragen:</b></p></div>
+            <div class="col-3" *ngFor="let teilaufgabe of teilaufgabenList">
+              <button type="button" class="btn btn-light" (click)="testFunction(teilaufgabe)">{{ teilaufgabe.name }}</button>
+            </div>
+          </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

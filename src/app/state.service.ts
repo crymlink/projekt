@@ -24,6 +24,9 @@ export class StateService implements OnInit, OnDestroy {
   dbSubject = new Subject<Datenbank>();
   someIntervall: any;
   sessionId: string;
+  schuelerId: string;
+  schuelerObject: Schueler;
+  myTemporalGroupId: number;
 
   ngOnInit() {
     this.someIntervall = setInterval(() => this.getDaten(), 30000);
@@ -33,6 +36,25 @@ export class StateService implements OnInit, OnDestroy {
     this.sessionId = sessionId;
   }
 
+  getTemporalGroupId( ){
+    return this.myTemporalGroupId;
+  }
+
+  login(name: string, sessionid: string) {
+    return this.http
+      .post(`http://localhost:3000/session/${sessionid}`, { name })
+      .toPromise()
+      .then((schueler: Schueler) => {
+        if (schueler) {
+          this.schuelerId = schueler._id;
+          this.sessionId = sessionid;
+          this.schuelerObject = schueler;
+        } else {
+          console.log('errorHandling');
+        }
+      });
+  }
+
   async getDaten() {
     this.sessionId = 'somethingUnique';
     const id: string = this.sessionId;
@@ -40,7 +62,25 @@ export class StateService implements OnInit, OnDestroy {
       .get<Datenbank>(`http://localhost:3000/session/${id}`)
       .toPromise();
     this.dbSubject.next(this.data);
-    return await this.data;
+    if(this.schuelerId){
+      if (
+        !this.data.schuelerList.find(
+          (schueler) => schueler._id === this.schuelerId
+        )
+      ) {
+        this.data.gruppenList.forEach((gruppe) => {
+          gruppe.schuelerList.forEach((schueler) => {
+            if (schueler._id === this.schuelerId) {
+              this.myTemporalGroupId = gruppe.temporalCreateId;
+            }
+          });
+        });
+      }
+    } else {
+      this.myTemporalGroupId = null;
+    }
+    console.log(this.myTemporalGroupId);
+    return this.data;
   }
 
   createSession(sessionID: string) {
@@ -49,10 +89,13 @@ export class StateService implements OnInit, OnDestroy {
   }
 
   async editDaten(newDaten: Datenbank) {
-    console.log(newDaten._id);
     return this.http
       .patch(`http://localhost:3000/session/${newDaten._id}`, newDaten)
-      .toPromise();
+      .toPromise()
+      .then((data) => {
+        console.log('test');
+        this.dbSubject.next(this.data);
+      });
   }
 
   getSubscription() {
@@ -83,7 +126,6 @@ export class StateService implements OnInit, OnDestroy {
   saveChipClickData(data) {
     this.chipClickData = data;
     this.chipDataSubject.next(this.chipClickData);
-    console.log(this.chipClickData);
   }
   getChipClikcData() {
     return this.chipClickData;
@@ -92,11 +134,10 @@ export class StateService implements OnInit, OnDestroy {
   setNewThema(newThema: Themen) {
     this.data.themenList.push(newThema);
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   editThema(editThema: Themen) {
-    this.data.themenList.forEach((thema) => {
+    this.data.themenList = this.data.themenList.map((thema) => {
       if (thema._id === editThema._id) {
         return editThema;
       } else {
@@ -104,7 +145,6 @@ export class StateService implements OnInit, OnDestroy {
       }
     });
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   deleteThema(_id: string) {
@@ -112,17 +152,15 @@ export class StateService implements OnInit, OnDestroy {
       (thema) => thema._id !== _id
     );
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   setSchueler(newSchueler: Schueler) {
     this.data.schuelerList.push(newSchueler);
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   editSchueler(editSchueler: Schueler) {
-    this.data.schuelerList.forEach((schueler) => {
+    this.data.schuelerList = this.data.schuelerList.map((schueler) => {
       if (schueler._id === editSchueler._id) {
         return editSchueler;
       } else {
@@ -130,7 +168,6 @@ export class StateService implements OnInit, OnDestroy {
       }
     });
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   deleteSchueler(_id: string) {
@@ -138,13 +175,11 @@ export class StateService implements OnInit, OnDestroy {
       (schueler) => schueler._id !== _id
     );
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   saveManyGruppen(gruppe: Gruppe[]) {
     this.data.gruppenList = [...gruppe];
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   editGruppe(editGruppe: Gruppe) {
@@ -157,7 +192,6 @@ export class StateService implements OnInit, OnDestroy {
       }
     });
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   schuelerDragDropSaveDeletelul(editGruppe: Gruppe, _id: string) {
@@ -171,6 +205,7 @@ export class StateService implements OnInit, OnDestroy {
     this.data.schuelerList = this.data.schuelerList.filter(
       (schueler) => schueler._id !== _id
     );
+    this.myTemporalGroupId = editGruppe.temporalCreateId;
     this.editDaten(this.data);
   }
 
@@ -178,16 +213,16 @@ export class StateService implements OnInit, OnDestroy {
     this.data.gruppenList = this.data.gruppenList.map((gruppe) => {
       if (gruppe._id === _id) {
         gruppe.schuelerList = gruppe.schuelerList.filter(
-          (gruppeSchueler) => gruppeSchueler._id === schueler._id
+          (gruppeSchueler) => gruppeSchueler._id !== schueler._id
         );
         return gruppe;
       } else {
         return gruppe;
       }
     });
+     this.myTemporalGroupId = null;
     this.data.schuelerList.push(schueler);
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   deleteGruppeById(_id: string) {
@@ -195,49 +230,46 @@ export class StateService implements OnInit, OnDestroy {
       (gruppe) => gruppe._id !== _id
     );
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   setNewTeilAufgabe(newTeilaufgabe: Teilaufgaben) {
     this.data.teilAufgabenList.push(newTeilaufgabe);
     this.editDaten(this.data);
-    this.getDaten();
   }
   editTeilAufgabe(editTeilAufgabe: Teilaufgaben) {
-    this.data.teilAufgabenList.forEach((teilaufgaben) => {
-      if (teilaufgaben._id === editTeilAufgabe._id) {
-        return editTeilAufgabe;
-      } else {
-        return teilaufgaben;
+    this.data.teilAufgabenList = this.data.teilAufgabenList.map(
+      (teilaufgaben) => {
+        if (teilaufgaben._id === editTeilAufgabe._id) {
+          return editTeilAufgabe;
+        } else {
+          return teilaufgaben;
+        }
       }
-    });
+    );
     this.editDaten(this.data);
-    this.getDaten();
   }
   deleteTeilAufgabe(_id: string) {
     this.data.teilAufgabenList = this.data.teilAufgabenList.filter(
       (teilaufgabe) => teilaufgabe._id !== _id
     );
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   setNewHinweis(newHinweis: Hinweise) {
     this.data.hinweisList.push(newHinweis);
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   editHinweis(editHinweis: Hinweise) {
-    this.data.hinweisList.forEach((hinweis) => {
+    this.data.hinweisList = this.data.hinweisList.map((hinweis) => {
       if (hinweis._id === editHinweis._id) {
-        return editHinweis;
+        return { ...editHinweis };
       } else {
-        return hinweis;
+        return { ...hinweis };
       }
     });
+
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   deleteHinweis(_id: string) {
@@ -245,34 +277,27 @@ export class StateService implements OnInit, OnDestroy {
       (hinweis) => hinweis._id !== _id
     );
     this.editDaten(this.data);
-    this.getDaten();
   }
 
   //create and delete Aufgaben Stellung
-  editAufgabe1(newAufgabe: Aufgaben) {
+  editAufgabe1(newAufgabe: Aufgaben, aufgabe2: Aufgaben) {
     //ID wird DB setzten
     if (this.data.aufgabenList[0]) {
       this.data.aufgabenList[0].fragestellung = newAufgabe.fragestellung;
     } else {
       this.data.aufgabenList.push(newAufgabe);
     }
-    this.editDaten(this.data);
-    this.getDaten();
-  }
-
-  editAufgabe2(newAufgabe: Aufgaben) {
-    //ID wird DB setzten
     if (this.data.aufgabenList[1]) {
-      this.data.aufgabenList[1].fragestellung = newAufgabe.fragestellung;
+      this.data.aufgabenList[1].fragestellung = aufgabe2.fragestellung;
     } else {
-      this.data.aufgabenList.push(newAufgabe);
+      console.log('?');
+      this.data.aufgabenList.push(aufgabe2);
     }
     this.editDaten(this.data);
-    this.getDaten();
   }
+
   //Drag and Drop Event for two Components
   drop(event: CdkDragDrop<string[]>) {
-    console.log(event);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

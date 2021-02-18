@@ -35,7 +35,7 @@ export class GruppenEditorComponent implements OnInit,OnDestroy {
 
   addGruppe() {
     this.counter = this.counter +1;
-    let someGroup: Gruppe = {temporalCreateId: this.counter,aufgabenList: [],schuelerList: [], groeße: this.groesse};
+    let someGroup: Gruppe = {temporalCreateId: this.counter,schuelerList: [], groeße: this.groesse};
     this.gruppe.push(someGroup);
   }
 
@@ -57,7 +57,6 @@ export class GruppenEditorComponent implements OnInit,OnDestroy {
         gruppe.name = event.thema;
       }
     }
-    console.log(this.gruppe);
 
   }
 

@@ -26,6 +26,11 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GruppenElementComponent } from './components/gruppen-auswahl/gruppen-element/gruppen-element.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HinweisDashboardComponent } from './components/hinweis-dashboard/hinweis-dashboard.component'
+import { BrainstormingDashboardComponent } from './components/brainstorming-dashboard/brainstorming-dashboard.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { SchuelerGruppenAuswahlComponent } from './components/schueler-gruppen-auswahl/schueler-gruppen-auswahl.component';
+import { SchuelerGruppenElementComponent } from './components/schueler-gruppen-auswahl/schueler-gruppen-element/schueler-gruppen-element.component';
 
 
 
@@ -40,7 +45,10 @@ import { HinweisDashboardComponent } from './components/hinweis-dashboard/hinwei
     GruppenTableElementComponent,
     GruppenAuswahlComponent,
     GruppenElementComponent,
-    HinweisDashboardComponent
+    HinweisDashboardComponent,
+    BrainstormingDashboardComponent,
+    SchuelerGruppenElementComponent,
+    SchuelerGruppenAuswahlComponent
   ],
   imports: [
     HttpClientModule,
@@ -56,6 +64,8 @@ import { HinweisDashboardComponent } from './components/hinweis-dashboard/hinwei
     MatTooltipModule,
     MatInputModule,
     DragDropModule,
+    MatDialogModule,
+    MatButtonModule,
     QuillModule.forRoot({
       modules: {
         formula: true,

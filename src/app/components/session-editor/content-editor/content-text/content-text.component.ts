@@ -44,8 +44,7 @@ export class ContentTextComponent implements OnInit {
       }
       if(this.typeOfAdd === 'der Teilaufgabe'){
         // _Id muss von der Datenbank hinzugefügt werden!
-        const newErgebnis: Ergebnis = {text: this.antwortText, _id: 'MUSS DIE DATENBANK MACHEN!!!'}
-        const newTeilaufgabe: Teilaufgaben = {name: this.titelText, text: this.editorText, typ:'teilaufgabe', ergebnis: newErgebnis};
+        const newTeilaufgabe: Teilaufgaben = {name: this.titelText, text: this.editorText, typ:'teilaufgabe'};
         this.StateService.setNewTeilAufgabe(newTeilaufgabe);
       }
       if(this.typeOfAdd === 'des Themas'){
@@ -101,9 +100,6 @@ export class ContentTextComponent implements OnInit {
     //Subscribe on Subject to get Clicked Chip
     this.StateService.chipDataSubject.subscribe(fetchChip => {
       this.chipDataInit(fetchChip)
-
-
-
     })
     //handels the rendering of enditor if hinzufügen btn ist clicked
     this.typeOfAdd = this.StateService.getAddChipString();

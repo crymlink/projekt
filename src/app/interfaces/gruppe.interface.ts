@@ -8,7 +8,6 @@ export interface Gruppe {
   temporalCreateId?: number;
   schuelerList?: Schueler[];
   name?: Themen; //name of thema
-  aufgabenList?: Aufgaben[];
   groeße?: number;
-  ergebnis?: Ergebnis;
+  ergebnis?: Ergebnis[];
 }

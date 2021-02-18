@@ -1,0 +1,52 @@
+<div class="card mt-2">
+  <h4 class="card-header .matMargin">
+    Gruppe {{ gruppenID }}: {{ titelThema }}
+  </h4>
+  <div class="card-body change">
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title mt">Gruppen Mitglieder:</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="groupIndicator">
+          <mat-chip-list class="example-chip">
+            <mat-chip *ngIf="newSchuelerList.length <= 0"
+              >Gruppe ist Leer</mat-chip
+            >
+            <mat-chip
+              class="example-box"
+              *ngFor="let schueler of newSchuelerList"
+            >
+              {{ schueler.name }}
+            </mat-chip>
+          </mat-chip-list>
+          <hr />
+        </div>
+        <div class="col text-right">
+          <button
+            *ngIf="
+              _myTemporalGroupId &&
+              _myTemporalGroupId === this.gruppe.temporalCreateId
+            "
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="leave()"
+          >
+            Verlassen
+          </button>
+          <button
+            *ngIf="!_myTemporalGroupId"
+            type="button"
+            class="btn btn-outline-success btn-sm ml-3"
+            [disabled]="groesse <= gruppenMembers"
+            (click)="join()"
+          >
+            Beitreten
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

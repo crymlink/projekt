@@ -28,7 +28,6 @@ export class GruppenElementComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     this.StateService.drop(event);
     this.gruppe.schuelerList = this.newSchuelerList;
-    //Gruppen Id zum schüler hinzufügen, könnte sein das es DB ID werden muss !!!!!!!!!!!!!!!!!
     this.newSchuelerList.forEach((element) => {
       element.gruppenId = this.gruppe._id;
     });
