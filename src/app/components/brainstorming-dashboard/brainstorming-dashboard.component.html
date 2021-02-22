@@ -108,19 +108,20 @@
     <div class="col-10">
       <div class="row etherpad ml-1 mt-3">
         <div class="col">
-          ETHERPAD
+          <iframe  height="100%" width="100%" [src]="etherpadUrl" title="etherpad"></iframe>
         </div>
       </div>
       <div class="row mt-2">
-        <div *ngIf="true">
+        <div *ngIf="teilaufgabe">
           <div class="row mt-4">
             <div class="col-12">
-              <label for="hinweis">Ergebnis:</label>
+              <label for="hinweis">Ergebnis: {{ quillTitel }}</label>
               <!--<quill-view [content]="textFormat"></quill-view>-->
               <quill-editor
                 [style.display]="'block'"
                 (onEditorChanged)="changedEditor($event)"
-                [ngModel]="textFormat"
+                [(ngModel)]="textFormat"
+                [disabled]="!editClicked"
               ></quill-editor>
               <small id="textHelp" class="form-text text-muted"
                 >Hier können sie Anmerkungen und Tips für die Schüler eingeben
@@ -130,11 +131,15 @@
           <div class="row">
             <div class="col">
               <div class="text-right">
-                <button type="button" class="btn btn-info" (click)="onBearbeiten()">
+                <button type="button"  class="btn btn-danger mr-2" [disabled]="editClicked" (click)="back()">
+                  zurück
+                </button>
+                <button type="button"  [disabled]="bearbeitenBtn()" class="btn btn-info" (click)="onBearbeiten()">
                   Bearbeiten
                 </button>
                 <button
                   type="button"
+                  [disabled]="saveBtn()"
                   class="btn btn-success ml-2"
                   (click)="onSave()"
                 >
@@ -144,7 +149,7 @@
             </div>
           </div>
         </div>
-        <ng-container *ngIf="true">
+        <ng-container *ngIf="!teilaufgabe">
           <div class="col-3"><p><b>Ergebnisse Eintragen:</b></p></div>
             <div class="col-3" *ngFor="let teilaufgabe of teilaufgabenList">
               <button type="button" class="btn btn-light" (click)="testFunction(teilaufgabe)">{{ teilaufgabe.name }}</button>

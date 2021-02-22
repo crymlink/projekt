@@ -27,6 +27,8 @@ export class StateService implements OnInit, OnDestroy {
   schuelerId: string;
   schuelerObject: Schueler;
   myTemporalGroupId: number;
+  groupID: string;
+
 
   ngOnInit() {
     this.someIntervall = setInterval(() => this.getDaten(), 30000);
@@ -36,13 +38,73 @@ export class StateService implements OnInit, OnDestroy {
     this.sessionId = sessionId;
   }
 
-  getTemporalGroupId( ){
+  getTemporalGroupId() {
     return this.myTemporalGroupId;
+  }
+
+  setEditToSchueler(teilAufgabeId: string) {
+    const data: {
+      teilAufgabeId: string;
+      gruppenId: string;
+      sessionId: string;
+      schuelerId: string;
+    } = {
+      teilAufgabeId,
+      gruppenId: this.groupID,
+      sessionId: this.sessionId,
+      schuelerId: this.schuelerId,
+    };
+
+    return this.http
+      .post(`http://localhost:3000/session/setEdit`, data)
+      .toPromise()
+      .then((data) => {
+        this.dbSubject.next(data);
+      });
+  }
+
+  saveErgebnisText(teilAufgabeId: string, text: string) {
+    const data: {
+      teilAufgabeId: string;
+      gruppenId: string;
+      sessionId: string;
+      schuelerId: string;
+      text: string;
+    } = {
+      teilAufgabeId,
+      gruppenId: this.groupID,
+      sessionId: this.sessionId,
+      schuelerId: this.schuelerId,
+      text: text,
+    };
+
+    return this.http
+      .post(`http://localhost:3000/session/saveErgebnis`, data)
+      .toPromise()
+      .then((data) => {this.dbSubject.next(data)});
+  }
+
+  async loadErgebnis(teilAufgabeId: string) {
+    const data: {
+      teilAufgabeId: string;
+      gruppenId: string;
+      sessionId: string;
+      schuelerId: string;
+    } = {
+      teilAufgabeId,
+      gruppenId: this.groupID,
+      sessionId: this.sessionId,
+      schuelerId: this.schuelerId,
+    };
+    let fetchedData = await this.http
+      .post(`http://localhost:3000/session/loadErgebnis`, data)
+      .toPromise();
+    return await fetchedData;
   }
 
   login(name: string, sessionid: string) {
     return this.http
-      .post(`http://localhost:3000/session/${sessionid}`, { name })
+      .post(`http://localhost:3000/session/login/${sessionid}`, { name })
       .toPromise()
       .then((schueler: Schueler) => {
         if (schueler) {
@@ -50,7 +112,6 @@ export class StateService implements OnInit, OnDestroy {
           this.sessionId = sessionid;
           this.schuelerObject = schueler;
         } else {
-          console.log('errorHandling');
         }
       });
   }
@@ -61,8 +122,7 @@ export class StateService implements OnInit, OnDestroy {
     this.data = await this.http
       .get<Datenbank>(`http://localhost:3000/session/${id}`)
       .toPromise();
-    this.dbSubject.next(this.data);
-    if(this.schuelerId){
+    if (this.schuelerId) {
       if (
         !this.data.schuelerList.find(
           (schueler) => schueler._id === this.schuelerId
@@ -72,6 +132,7 @@ export class StateService implements OnInit, OnDestroy {
           gruppe.schuelerList.forEach((schueler) => {
             if (schueler._id === this.schuelerId) {
               this.myTemporalGroupId = gruppe.temporalCreateId;
+              this.groupID = gruppe._id;
             }
           });
         });
@@ -79,7 +140,7 @@ export class StateService implements OnInit, OnDestroy {
     } else {
       this.myTemporalGroupId = null;
     }
-    console.log(this.myTemporalGroupId);
+     this.dbSubject.next(this.data);
     return this.data;
   }
 
@@ -90,10 +151,10 @@ export class StateService implements OnInit, OnDestroy {
 
   async editDaten(newDaten: Datenbank) {
     return this.http
-      .patch(`http://localhost:3000/session/${newDaten._id}`, newDaten)
+      .patch(`http://localhost:3000/session/edit/${newDaten._id}`, newDaten)
       .toPromise()
       .then((data) => {
-        console.log('test');
+        this.data = data;
         this.dbSubject.next(this.data);
       });
   }
@@ -220,7 +281,7 @@ export class StateService implements OnInit, OnDestroy {
         return gruppe;
       }
     });
-     this.myTemporalGroupId = null;
+    this.myTemporalGroupId = null;
     this.data.schuelerList.push(schueler);
     this.editDaten(this.data);
   }
@@ -290,7 +351,6 @@ export class StateService implements OnInit, OnDestroy {
     if (this.data.aufgabenList[1]) {
       this.data.aufgabenList[1].fragestellung = aufgabe2.fragestellung;
     } else {
-      console.log('?');
       this.data.aufgabenList.push(aufgabe2);
     }
     this.editDaten(this.data);

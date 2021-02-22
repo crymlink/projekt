@@ -45,11 +45,11 @@ export class SchuelerGruppenElementComponent implements OnInit {
       groeße: this.gruppe.groeße,
       name: { ...this.gruppe.name },
       temporalCreateId: this.gruppe.temporalCreateId,
-      ergebnis: [],
+      ergebnisse: [],
       schuelerList: [],
     };
-    this.gruppe.ergebnis?.forEach((ergebnis) => {
-      newGroup.ergebnis.push({ ...ergebnis });
+    this.gruppe.ergebnisse?.forEach((ergebnis) => {
+      newGroup.ergebnisse.push({ ...ergebnis });
     });
     this.gruppe.schuelerList?.forEach((schueler) => {
       newGroup.schuelerList.push({ ...schueler });

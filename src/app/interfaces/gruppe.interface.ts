@@ -9,5 +9,5 @@ export interface Gruppe {
   schuelerList?: Schueler[];
   name?: Themen; //name of thema
   groeße?: number;
-  ergebnis?: Ergebnis[];
+  ergebnisse?: Ergebnis[];
 }

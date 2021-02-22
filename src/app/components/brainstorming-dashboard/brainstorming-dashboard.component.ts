@@ -1,9 +1,13 @@
+import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { Ergebnis } from 'src/app/interfaces/ergebnis.interface';
+import { Gruppe } from 'src/app/interfaces/gruppe.interface';
 import { Teilaufgaben } from 'src/app/interfaces/teilaufgaben.interface';
-import { StateService } from '../../state.service'
+import { StateService } from '../../state.service';
 
 @Component({
   selector: 'app-brainstorming-dashboard',
@@ -12,36 +16,82 @@ import { StateService } from '../../state.service'
 })
 export class BrainstormingDashboardComponent implements OnInit {
   teilaufgabenList: any;
+  teilaufgabenListSchuelerUnique: Teilaufgaben[];
   title = 'appBootstrap';
   closeResult: string;
   hinweisList: any;
   textFormat: string = '';
   editorText: string = '';
+  teilaufgabe: Teilaufgaben;
+  quillTitel: string = '';
+  gruppenList: Gruppe[];
+  temporalId: number;
+  editClicked: boolean = false;
+  etherpadUrl: SafeResourceUrl;
 
   constructor(
     private StateService: StateService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private sanitazier: DomSanitizer,
   ) {}
+
+  bearbeitenBtn() {
+    let someBoolean = false;
+    if (this.temporalId) {
+      this.gruppenList[this.temporalId - 1].ergebnisse.map((ergebnis) => {
+        if (ergebnis.teilAufgabeId === this.teilaufgabe._id) {
+          if (ergebnis.getEditedFrom) {
+            someBoolean = true;
+          }
+        }
+      });
+    }
+    return someBoolean;
+  }
+
+  back() {
+    this.teilaufgabe = null;
+  }
+
+  saveBtn() {
+    let someBoolean = false;
+    this.gruppenList[this.temporalId - 1]?.ergebnisse?.map((ergebnis) => {
+      if (ergebnis?.teilAufgabeId === this.teilaufgabe?._id) {
+        if (ergebnis?.getEditedFrom !== this.StateService?.schuelerId) {
+          someBoolean = true;
+        }
+      }
+    });
+    return someBoolean;
+  }
 
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
     this.editorText = event['editor']['root']['innerHTML'];
   }
 
-  onBearbeiten(){
-
+  onBearbeiten() {
+    this.StateService.setEditToSchueler(this.teilaufgabe._id);
+    this.editClicked = true;
   }
 
-  onSave(){
-
+  onSave() {
+    this.StateService.saveErgebnisText(this.teilaufgabe._id, this.textFormat);
+    this.editClicked = false;
   }
 
-  testFunction(teilaufgabe: Teilaufgaben) {
-    console.log(teilaufgabe);
+  async testFunction(teilaufgabe: Teilaufgaben) {
+    this.teilaufgabe = teilaufgabe;
+    const ergebnis: Ergebnis = await this.StateService.loadErgebnis(
+      teilaufgabe._id
+    );
+    if (ergebnis) {
+      this.textFormat = ergebnis.text;
+      this.quillTitel = teilaufgabe.name;
+    }
   }
-  
-
 
   ngOnInit() {
+    this.etherpadUrl = this.sanitazier.bypassSecurityTrustResourceUrl('');
     this.StateService.getDaten().then(() => {
       if (this.StateService.data.teilAufgabenList) {
         this.teilaufgabenList = [...this.StateService.data.teilAufgabenList];
@@ -49,10 +99,21 @@ export class BrainstormingDashboardComponent implements OnInit {
       if (this.StateService.data.hinweisList) {
         this.hinweisList = [...this.StateService.data.hinweisList];
       }
+      if (this.StateService.data.gruppenList) {
+        this.gruppenList = [...this.StateService.data.gruppenList];
+        console.log(this.gruppenList);
+      }
+      if (this.StateService.myTemporalGroupId) {
+        console.log(this.temporalId);
+        this.temporalId = this.StateService.myTemporalGroupId;
+      }
     });
     this.StateService.dbSubject.subscribe((dbData) => {
       this.teilaufgabenList = [...dbData.teilAufgabenList];
       this.hinweisList = [...dbData.hinweisList];
+      this.gruppenList = [...dbData.gruppenList];
+      this.temporalId = this.StateService.myTemporalGroupId;
+      console.log(this.gruppenList[this.temporalId - 1]);
     });
   }
   //MODAL LOGIC
@@ -79,4 +140,3 @@ export class BrainstormingDashboardComponent implements OnInit {
     }
   }
 }
-

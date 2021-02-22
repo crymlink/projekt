@@ -10,7 +10,7 @@ import { StateService } from '../../../../state.service';
 })
 export class GruppenTableElementComponent implements OnInit {
   @Input() temporalId: number;
-  themenListe: any;
+  @Input() themenListe: any;
   @Input() gruppe: Gruppe;
   @Output() changeGruppeEvent = new  EventEmitter<{id: number, thema: Themen}>();
 
@@ -18,7 +18,7 @@ export class GruppenTableElementComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.themenListe = (await this.StateService.getDaten()).themenList;
+
   }
 
   changeThema(event: any) {

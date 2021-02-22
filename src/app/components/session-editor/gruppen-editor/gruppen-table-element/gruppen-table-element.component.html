@@ -8,8 +8,8 @@
   <div class="col-auto mt-3">
     <div class="form-group">
       <select (change)="changeThema($event.target.value)"class="form-control">
-        <option *ngIf="!gruppe.name" disabled selected hidden> -- Thema auswählen -- </option>
-        <option *ngIf="gruppe.name" disabled selected hidden> {{gruppe.name.name}} </option>
+        <option *ngIf="!gruppe.name?.name" disabled selected hidden> -- Thema auswählen -- </option>
+        <option *ngIf="gruppe.name?.name" disabled selected hidden> {{gruppe.name.name}} </option>
        <option *ngFor="let items of themenListe">{{ items.name }}</option>
       </select>
     </div>
