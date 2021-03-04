@@ -32,7 +32,7 @@ export class BrainstormingDashboardComponent implements OnInit {
   constructor(
     private StateService: StateService,
     private modalService: NgbModal,
-    private sanitazier: DomSanitizer,
+    private sanitazier: DomSanitizer
   ) {}
 
   bearbeitenBtn() {
@@ -91,7 +91,9 @@ export class BrainstormingDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.etherpadUrl = this.sanitazier.bypassSecurityTrustResourceUrl('');
+    this.etherpadUrl = this.sanitazier.bypassSecurityTrustResourceUrl(
+      'https://etherpad.uni-due.de/p/gruppe3?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false'
+    );
     this.StateService.getDaten().then(() => {
       if (this.StateService.data.teilAufgabenList) {
         this.teilaufgabenList = [...this.StateService.data.teilAufgabenList];
